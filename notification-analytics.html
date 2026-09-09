@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Real-Time Notification Event Analytics</title>
+<title>Anal&iacute;tico de Eventos de Notifica&ccedil;&atilde;o em Tempo Real</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap">
@@ -213,8 +213,9 @@ strong.hl{ color:var(--warn); }
 }
 
 ul.bullets{ list-style:none; display:flex; flex-direction:column; gap:clamp(.28rem,.9vh,.62rem); }
-ul.bullets li{ display:flex; gap:.55em; line-height:1.45; align-items:flex-start; }
-ul.bullets li::before{ content:"■"; color:var(--navy); font-size:.7em; line-height:1.9; flex:0 0 auto; }
+ul.bullets li{ position:relative; padding-left:1.15em; line-height:1.45; }
+ul.bullets li::before{ content:"■"; color:var(--navy); font-size:.7em;
+  position:absolute; left:0; top:.5em; }
 
 /* ===========================================================
    FLOW DIAGRAMS — bevelled nodes + arrow glyphs
@@ -481,6 +482,79 @@ pre.code{
   html{ scroll-behavior:auto; }
   .reveal{ transform:none; }
 }
+
+/* ===========================================================
+   HIGH-LEVEL ARCHITECTURE SLIDE
+   One horizontal band per plane; nodes flex to share the width
+   so the whole system stays readable on a single screen.
+   =========================================================== */
+.arch{ display:flex; flex-direction:column; justify-content:center;
+       gap:clamp(.45rem,1.6vh,1.1rem); flex:1; min-height:0; }
+.arch-row{ display:flex; align-items:stretch; justify-content:center;
+           gap:clamp(2px,.4vw,6px); }
+.arch-row > .node{ flex:1 1 0; min-width:0; text-align:center;
+           display:flex; flex-direction:column; justify-content:center;
+           padding:clamp(.3rem,.8vh,.62rem) clamp(.18rem,.45vw,.45rem); }
+.arch-row > .node b{ font-size:clamp(.58rem,.92vw,.84rem); line-height:1.18; }
+.arch-row > .node small{ font-size:clamp(.5rem,.7vw,.66rem); line-height:1.25;
+           margin-top:.18em; }
+.arch-ar{ flex:0 0 auto; align-self:center; text-align:center; line-height:1;
+          color:var(--navy); font-weight:bold; font-size:clamp(.6rem,1.05vw,.95rem); }
+.arch-ar small{ display:block; margin-top:2px; font-weight:normal; color:#404040;
+          font-family:var(--font-ui); font-size:clamp(.44rem,.6vw,.58rem); }
+.arch-down{ text-align:center; color:var(--navy); line-height:1;
+          font-size:clamp(.6rem,1.05vw,.95rem); padding:clamp(3px,.7vh,7px) 0 clamp(2px,.4vh,4px); }
+.arch-band{ display:flex; align-items:center; justify-content:center;
+          gap:clamp(4px,.8vw,10px); color:var(--warn); font-weight:bold;
+          font-size:var(--small-size); letter-spacing:.03em; }
+.arch-band::before, .arch-band::after{ content:""; flex:1 1 0; height:0;
+          border-top:2px dashed var(--warn); opacity:.6; }
+.arch-fan{ display:flex; justify-content:center; flex-wrap:wrap;
+          gap:clamp(3px,.6vw,9px); }
+@media (max-width:760px){
+  .arch-row{ flex-wrap:wrap; }
+  .arch-row > .node{ flex:1 1 44%; }
+  .arch-row > .arch-ar{ display:none; }
+}
+
+/* ===========================================================
+   VALUE / USER-JOURNEY SLIDES
+   A journey is a horizontal strip of actors and steps; each step
+   flexes to share the width so the whole path fits one viewport.
+   =========================================================== */
+.journey{ display:flex; align-items:stretch; justify-content:center; gap:clamp(2px,.4vw,6px); }
+.journey > .step{ flex:1 1 0; min-width:0; text-align:center; background:var(--face);
+  padding:clamp(.28rem,.75vh,.55rem) clamp(.18rem,.45vw,.45rem);
+  box-shadow: inset -1px -1px var(--dark), inset 1px 1px var(--white),
+              inset -2px -2px var(--shadow), inset 2px 2px var(--face-lite);
+  display:flex; flex-direction:column; justify-content:center; }
+.journey .step b{ font-size:clamp(.57rem,.9vw,.8rem); color:var(--navy); line-height:1.15; }
+.journey .step small{ font-size:clamp(.49rem,.69vw,.65rem); color:#404040; line-height:1.25;
+  margin-top:.18em; overflow-wrap:anywhere; }
+/* Keep monospace identifiers inside their step box instead of inheriting the larger mono size. */
+.journey .step small .mono{ font-size:inherit; }
+.journey .step.win{ background:var(--navy); }
+.journey .step.win b, .journey .step.win small{ color:#fff; }
+.journey .badge{ align-self:center; margin-bottom:.25em;
+  width:clamp(17px,2.1vw,25px); height:clamp(17px,2.1vw,25px); background:#fff;
+  box-shadow: inset -1px -1px var(--shadow), inset 1px 1px var(--dark);
+  display:grid; place-items:center; color:var(--navy);
+  font:bold clamp(9px,1.05vw,12px)/1 var(--font-ui); }
+.journey .step.win .badge{ background:var(--navy2); color:#fff; }
+.journey .sep{ flex:0 0 auto; align-self:center; color:var(--navy); font-weight:bold;
+  font-size:clamp(.6rem,1.05vw,.95rem); line-height:1; }
+
+/* Big before/after numbers */
+.metrics{ display:flex; justify-content:center; gap:clamp(.6rem,2vw,2.2rem); text-align:center; }
+.metric b{ display:block; font-family:var(--font-pixel); line-height:1.25;
+  font-size:clamp(.75rem,2.1vw,1.5rem); color:var(--ok); }
+.metric.bad b{ color:var(--warn); }
+.metric small{ display:block; font-size:var(--small-size); color:#404040; margin-top:.4em; }
+@media (max-width:640px){
+  .journey{ flex-wrap:wrap; }
+  .journey > .step{ flex:1 1 45%; }
+  .journey > .sep{ display:none; }
+}
 </style>
 </head>
 <body>
@@ -490,47 +564,47 @@ pre.code{
 <!-- ============================================================
      SLIDE 1 — TITLE
      ============================================================ -->
-<section class="slide" data-task="Welcome">
+<section class="slide" data-task="In&iacute;cio">
   <div class="win narrow">
     <div class="titlebar">
       <span class="tb-icon">&#9635;</span>
-      <span class="tb-text">notification-analytics.arch &mdash; Architecture Proposal</span>
+      <span class="tb-text">notification-analytics.arch &mdash; Proposta de Arquitetura</span>
       <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span>
     </div>
-    <div class="menubar"><span><u>F</u>ile</span><span><u>E</u>dit</span><span><u>V</u>iew</span><span><u>H</u>elp</span></div>
+    <div class="menubar"><span><u>A</u>rquivo</span><span><u>E</u>ditar</span><span><u>E</u>xibir</span><span><u>A</u>juda</span></div>
     <div class="winbody" style="align-items:center;text-align:center;justify-content:center;gap:clamp(.7rem,2vh,1.6rem)">
-      <div class="kicker reveal">SYSTEM DESIGN &nbsp;&#9658;&nbsp; V1.0 &nbsp;&#9658;&nbsp; 2026-09-08</div>
-      <h1 class="reveal">REAL-TIME<br>NOTIFICATION EVENT<br>ANALYTICS</h1>
-      <p class="lede reveal" style="max-width:56ch">An event-driven analytics plane for a distributed notification
-        platform &mdash; built <strong class="hl">beside</strong> the delivery path, never inside it.</p>
+      <div class="kicker reveal">DESENHO DE SISTEMA &nbsp;&#9658;&nbsp; V1.0 &nbsp;&#9658;&nbsp; 2026-09-08</div>
+      <h1 class="reveal">ANAL&Iacute;TICO DE EVENTOS<br>DE NOTIFICA&Ccedil;&Atilde;O<br>EM TEMPO REAL</h1>
+      <p class="lede reveal" style="max-width:56ch">Um plano anal&iacute;tico orientado a eventos para uma plataforma distribu&iacute;da de
+        notifica&ccedil;&otilde;es &mdash; constru&iacute;do <strong class="hl">ao lado</strong> do caminho de entrega, nunca dentro dele.</p>
       <div class="chips reveal">
         <span class="chip">S3 Bronze</span><span class="chip">Parquet / Iceberg Silver</span>
-        <span class="chip">ClickHouse Gold</span><span class="chip">7 decision records</span>
+        <span class="chip">ClickHouse Gold</span><span class="chip">7 registros de decis&atilde;o</span>
       </div>
       <div class="btnrow reveal" style="justify-content:center">
-        <span class="btn default">Next &#9658;</span><span class="btn">Cancel</span>
+        <span class="btn default">Pr&oacute;ximo &#9658;</span><span class="btn">Cancelar</span>
       </div>
     </div>
-    <div class="statusbar"><div>Press &#8594; / Space to advance</div><div>17 slides</div></div>
+    <div class="statusbar"><div>Pressione &#8594; / Espa&ccedil;o para avan&ccedil;ar</div><div>22 slides</div></div>
   </div>
 </section>
 
 <!-- ============================================================
      SLIDE 2 — THE PLATFORM TODAY
      ============================================================ -->
-<section class="slide" data-task="Today">
+<section class="slide" data-task="Hoje">
   <div class="win">
     <div class="titlebar"><span class="tb-icon">&#9635;</span>
-      <span class="tb-text">The platform today &mdash; it already works</span>
+      <span class="tb-text">A plataforma hoje &mdash; ela j&aacute; funciona</span>
       <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
-    <div class="menubar"><span><u>F</u>ile</span><span><u>V</u>iew</span><span><u>H</u>elp</span></div>
+    <div class="menubar"><span><u>A</u>rquivo</span><span><u>E</u>xibir</span><span><u>A</u>juda</span></div>
     <div class="winbody">
-      <h2 class="reveal"><span class="num">01</span>Every notification is assembled from many services.</h2>
+      <h2 class="reveal"><span class="num">01</span>Toda notifica&ccedil;&atilde;o &eacute; montada a partir de v&aacute;rios servi&ccedil;os.</h2>
       <div class="reveal" style="flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:clamp(2px,.6vh,6px)">
         <div class="chips">
-          <span class="chip">User&nbsp;data</span><span class="chip">Permissions</span><span class="chip">Preferences</span>
-          <span class="chip">Templates</span><span class="chip">Tenant&nbsp;config</span><span class="chip">Provider&nbsp;config</span>
-          <span class="chip">Domain&nbsp;services</span>
+          <span class="chip">Dados&nbsp;do&nbsp;usu&aacute;rio</span><span class="chip">Permiss&otilde;es</span><span class="chip">Prefer&ecirc;ncias</span>
+          <span class="chip">Templates</span><span class="chip">Config&nbsp;do&nbsp;tenant</span><span class="chip">Config&nbsp;do&nbsp;provider</span>
+          <span class="chip">Servi&ccedil;os&nbsp;de&nbsp;dom&iacute;nio</span>
         </div>
         <div class="arrow" style="text-align:center">&#9660;</div>
         <div class="flow">
@@ -547,147 +621,210 @@ pre.code{
           <div class="node">Webhook</div><div class="node">Email</div><div class="node">SMS</div>
         </div>
       </div>
-      <p class="lede reveal">Every piece works. <strong class="hl">Nothing writes down that it happened.</strong></p>
+      <p class="lede reveal">Cada pe&ccedil;a funciona. <strong class="hl">Nada registra que aquilo aconteceu.</strong></p>
     </div>
-    <div class="statusbar"><div>Existing architecture &mdash; unchanged by this proposal</div><div>7 sources</div></div>
+    <div class="statusbar"><div>Arquitetura existente &mdash; inalterada por esta proposta</div><div>7 fontes</div></div>
   </div>
 </section>
 
 <!-- ============================================================
      SLIDE 3 — THE QUESTIONS WE CAN'T ANSWER
      ============================================================ -->
-<section class="slide" data-task="Problem">
+<section class="slide" data-task="Problema">
   <div class="win">
     <div class="titlebar"><span class="tb-icon">&#33;</span>
-      <span class="tb-text">Support ticket #48213 &mdash; 3 questions, 0 answers</span>
+      <span class="tb-text">Chamado #48213 &mdash; 3 perguntas, 0 respostas</span>
       <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
     <div class="winbody">
-      <h2 class="reveal"><span class="num">02</span>There is no notification history. So none of this is answerable.</h2>
+      <h2 class="reveal"><span class="num">02</span>N&atilde;o existe hist&oacute;rico de notifica&ccedil;&otilde;es. Ent&atilde;o nada disso tem resposta.</h2>
       <div class="grid3 reveal" style="flex:1;align-content:center">
         <div class="dialog" style="transform:rotate(-.5deg)">
-          <div class="titlebar"><span class="tb-text">Notification Lookup</span><span class="tb-btns"><b>&#10005;</b></span></div>
+          <div class="titlebar"><span class="tb-text">Consulta de Notifica&ccedil;&atilde;o</span><span class="tb-btns"><b>&#10005;</b></span></div>
           <div class="dlg-body"><div class="dlg-icon q">?</div>
-            <div class="dlg-text">Which notifications were generated for <b>usr_802941</b> &mdash; and were any of them actually queued?</div></div>
+            <div class="dlg-text">Quais notifica&ccedil;&otilde;es foram geradas para <b>usr_802941</b> &mdash; e alguma delas chegou a ser enfileirada?</div></div>
           <div class="btnrow" style="padding:0 8px 8px"><span class="btn default">OK</span></div>
         </div>
         <div class="dialog" style="transform:rotate(.4deg)">
-          <div class="titlebar"><span class="tb-text">Failure Analysis</span><span class="tb-btns"><b>&#10005;</b></span></div>
+          <div class="titlebar"><span class="tb-text">An&aacute;lise de Falha</span><span class="tb-btns"><b>&#10005;</b></span></div>
           <div class="dlg-body"><div class="dlg-icon">&#10005;</div>
-            <div class="dlg-text">Delivery failed. Was it the <b>provider</b>, the <b>network</b>, <b>permissions</b>, or our own <b>queue</b>? How many attempts?</div></div>
+            <div class="dlg-text">A entrega falhou. Foi o <b>provider</b>, a <b>rede</b>, <b>permiss&otilde;es</b>, ou a nossa pr&oacute;pria <b>fila</b>? Quantas tentativas?</div></div>
           <div class="btnrow" style="padding:0 8px 8px"><span class="btn default">OK</span></div>
         </div>
         <div class="dialog" style="transform:rotate(-.3deg)">
-          <div class="titlebar"><span class="tb-text">Operations</span><span class="tb-btns"><b>&#10005;</b></span></div>
+          <div class="titlebar"><span class="tb-text">Opera&ccedil;&otilde;es</span><span class="tb-btns"><b>&#10005;</b></span></div>
           <div class="dlg-body"><div class="dlg-icon">&#10005;</div>
-            <div class="dlg-text">What is <b>stuck right now</b>? What is the failure rate for this channel, this provider, this tenant?</div></div>
+            <div class="dlg-text">O que est&aacute; <b>travado agora</b>? Qual a taxa de falha deste canal, deste provider, deste tenant?</div></div>
           <div class="btnrow" style="padding:0 8px 8px"><span class="btn default">OK</span></div>
         </div>
       </div>
-      <p class="lede reveal">Each service knows one chapter of the story. <strong class="hl">Nobody holds the book.</strong></p>
+      <p class="lede reveal">Cada servi&ccedil;o conhece um cap&iacute;tulo da hist&oacute;ria. <strong class="hl">Ningu&eacute;m tem o livro.</strong></p>
     </div>
-    <div class="statusbar"><div>Root cause: the lifecycle is distributed, the record is not</div><div>0 answers</div></div>
+    <div class="statusbar"><div>Causa raiz: o ciclo de vida &eacute; distribu&iacute;do, o registro n&atilde;o</div><div>0 respostas</div></div>
   </div>
 </section>
 
 <!-- ============================================================
      SLIDE 4 — THE PROPOSAL
      ============================================================ -->
-<section class="slide" data-task="Proposal">
+<section class="slide" data-task="Proposta">
   <div class="win">
     <div class="titlebar"><span class="tb-icon">&#9635;</span>
-      <span class="tb-text">The proposal &mdash; a second plane, not a rewrite</span>
+      <span class="tb-text">A proposta &mdash; um segundo plano, n&atilde;o uma reescrita</span>
       <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
-    <div class="menubar"><span><u>F</u>ile</span><span><u>V</u>iew</span><span><u>H</u>elp</span></div>
+    <div class="menubar"><span><u>A</u>rquivo</span><span><u>E</u>xibir</span><span><u>A</u>juda</span></div>
     <div class="winbody">
-      <h2 class="reveal"><span class="num">03</span>Services emit lifecycle facts. A medallion pipeline turns them into answers.</h2>
+      <h2 class="reveal"><span class="num">03</span>Os servi&ccedil;os emitem fatos do ciclo de vida. Um pipeline medallion os transforma em respostas.</h2>
       <div class="flow reveal" style="flex:1;justify-content:center">
-        <div class="node"><b>Existing Services</b><small>standardized notification events</small></div>
+        <div class="node"><b>Servi&ccedil;os existentes</b><small>eventos de notifica&ccedil;&atilde;o padronizados</small></div>
         <div class="arrow">&#9660;</div>
-        <div class="node"><b>Event Ingestion Layer</b><small>SDK / HTTP &mdash; fire and forget</small></div>
+        <div class="node"><b>Camada de Ingest&atilde;o de Eventos</b><small>SDK / HTTP &mdash; dispara e esquece</small></div>
         <div class="arrow">&#9660;</div>
-        <div class="node hot"><b>BRONZE &mdash; Amazon S3</b><small>raw, immutable, batched, permanent</small></div>
+        <div class="node hot"><b>BRONZE &mdash; Amazon S3</b><small>bruto, imut&aacute;vel, em lote, permanente</small></div>
         <div class="arrow">&#9660; <span style="font-size:.85em">s3:ObjectCreated</span></div>
-        <div class="node hot"><b>SILVER &mdash; S3 Parquet / Iceberg</b><small>canonical event model, deduplicated</small></div>
+        <div class="node hot"><b>SILVER &mdash; S3 Parquet / Iceberg</b><small>modelo can&ocirc;nico de evento, deduplicado</small></div>
         <div class="arrow">&#9660;</div>
-        <div class="node hot"><b>GOLD &mdash; ClickHouse</b><small>OLAP projections &amp; materialized views</small></div>
+        <div class="node hot"><b>GOLD &mdash; ClickHouse</b><small>proje&ccedil;&otilde;es OLAP e views materializadas</small></div>
         <div class="arrow">&#9660;</div>
         <div class="flow h">
-          <div class="node">History API</div><div class="node">Dashboards</div>
-          <div class="node">Failure analytics</div><div class="node">SLA metrics</div>
+          <div class="node">API de Hist&oacute;rico</div><div class="node">Dashboards</div>
+          <div class="node">An&aacute;lise de falhas</div><div class="node">M&eacute;tricas de SLA</div>
         </div>
       </div>
-      <p class="lede reveal">The delivery path is <strong class="hl">not touched</strong>. Nothing here can stop a notification from being sent.</p>
+      <p class="lede reveal">O caminho de entrega <strong class="hl">n&atilde;o &eacute; tocado</strong>. Nada aqui pode impedir o envio de uma notifica&ccedil;&atilde;o.</p>
     </div>
-    <div class="statusbar"><div>bronze &#8594; silver &#8594; gold</div><div>latency: seconds</div></div>
+    <div class="statusbar"><div>bronze &#8594; silver &#8594; gold</div><div>lat&ecirc;ncia: segundos</div></div>
   </div>
 </section>
 
 <!-- ============================================================
      SLIDE 5 — TWO PLANES
      ============================================================ -->
-<section class="slide" data-task="Two planes">
+<section class="slide" data-task="Dois planos">
   <div class="win">
     <div class="titlebar"><span class="tb-icon">&#9635;</span>
-      <span class="tb-text">Architecture map &mdash; two independent planes</span>
+      <span class="tb-text">Mapa da arquitetura &mdash; dois planos independentes</span>
       <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
     <div class="winbody">
-      <h2 class="reveal"><span class="num">04</span>One plane executes. One plane remembers.</h2>
+      <h2 class="reveal"><span class="num">04</span>Um plano executa. O outro lembra.</h2>
       <div class="grid2 reveal" style="flex:1;min-height:0">
         <div class="gbox">
-          <span class="legend">EXECUTION PLANE &mdash; EXISTING, UNCHANGED</span>
+          <span class="legend">PLANO DE EXECU&Ccedil;&Atilde;O &mdash; EXISTENTE, INALTERADO</span>
           <div class="flow" style="height:100%;justify-content:center">
-            <div class="node">Domain services</div><div class="arrow">&#9660;</div>
-            <div class="node">Notification processing</div><div class="arrow">&#9660;</div>
-            <div class="node">Existing SQS FIFO</div><div class="arrow">&#9660;</div>
-            <div class="node">Notification workers</div><div class="arrow">&#9660;</div>
-            <div class="node">External providers</div>
+            <div class="node">Servi&ccedil;os de dom&iacute;nio</div><div class="arrow">&#9660;</div>
+            <div class="node">Processamento de notifica&ccedil;&atilde;o</div><div class="arrow">&#9660;</div>
+            <div class="node">SQS FIFO existente</div><div class="arrow">&#9660;</div>
+            <div class="node">Workers de notifica&ccedil;&atilde;o</div><div class="arrow">&#9660;</div>
+            <div class="node">Providers externos</div>
           </div>
         </div>
         <div class="gbox warnbox">
-          <span class="legend">ANALYTICS PLANE &mdash; NEW</span>
+          <span class="legend">PLANO ANAL&Iacute;TICO &mdash; NOVO</span>
           <div class="flow" style="height:100%;justify-content:center">
-            <div class="node">Standard Event SDK</div><div class="arrow">&#9660;</div>
-            <div class="node">Ingestion layer</div><div class="arrow">&#9660;</div>
-            <div class="node hot">Bronze &mdash; S3 raw</div><div class="arrow">&#9660;</div>
-            <div class="node">Normalize &middot; validate &middot; dedupe</div><div class="arrow">&#9660;</div>
-            <div class="node hot">Silver &mdash; canonical</div><div class="arrow">&#9660;</div>
+            <div class="node">SDK de Eventos padr&atilde;o</div><div class="arrow">&#9660;</div>
+            <div class="node">Camada de ingest&atilde;o</div><div class="arrow">&#9660;</div>
+            <div class="node hot">Bronze &mdash; S3 bruto</div><div class="arrow">&#9660;</div>
+            <div class="node">Normalizar &middot; validar &middot; deduplicar</div><div class="arrow">&#9660;</div>
+            <div class="node hot">Silver &mdash; can&ocirc;nico</div><div class="arrow">&#9660;</div>
             <div class="node hot">Gold &mdash; ClickHouse</div>
           </div>
         </div>
       </div>
-      <p class="lede reveal">The only coupling is a <strong class="hl">one-way event emission</strong>. Cut it and notifications still ship.</p>
+      <p class="lede reveal">O &uacute;nico acoplamento &eacute; uma <strong class="hl">emiss&atilde;o de evento de m&atilde;o &uacute;nica</strong>. Corte-a e as notifica&ccedil;&otilde;es continuam saindo.</p>
     </div>
-    <div class="statusbar"><div>Coupling: 1 direction, 0 blocking calls</div><div>2 planes</div></div>
+    <div class="statusbar"><div>Acoplamento: 1 dire&ccedil;&atilde;o, 0 chamadas bloqueantes</div><div>2 planos</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 6 — HIGH-LEVEL ARCHITECTURE
+     ============================================================ -->
+<section class="slide" data-task="Arquitetura">
+  <div class="win">
+    <div class="titlebar"><span class="tb-icon">&#9635;</span>
+      <span class="tb-text">Arquitetura de alto n&iacute;vel &mdash; ponta a ponta</span>
+      <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
+    <div class="menubar"><span><u>A</u>rquivo</span><span><u>E</u>xibir</span><span><u>A</u>juda</span></div>
+    <div class="winbody">
+      <h2 class="reveal"><span class="num">05</span>O sistema inteiro em uma tela.</h2>
+
+      <div class="arch reveal">
+
+        <div class="gbox">
+          <span class="legend">PLANO DE EXECU&Ccedil;&Atilde;O &mdash; EXISTENTE, INALTERADO</span>
+          <div class="arch-row">
+            <div class="node"><b>Servi&ccedil;os de dom&iacute;nio</b><small>usu&aacute;rio &middot; permiss&otilde;es &middot; prefer&ecirc;ncias &middot; templates &middot; tenant</small></div>
+            <div class="arch-ar">&#9654;</div>
+            <div class="node"><b>Notification Builder</b><small>monta o payload</small></div>
+            <div class="arch-ar">&#9654;</div>
+            <div class="node"><b>Dispatcher</b><small>roteia por canal</small></div>
+            <div class="arch-ar">&#9654;</div>
+            <div class="node"><b>SQS FIFO</b><small>fila existente</small></div>
+            <div class="arch-ar">&#9654;</div>
+            <div class="node"><b>Delivery Worker</b><small>envia e repete</small></div>
+            <div class="arch-ar">&#9654;</div>
+            <div class="node"><b>Providers externos</b><small>webhook &middot; email &middot; SMS</small></div>
+          </div>
+        </div>
+
+        <div class="arch-band">&#9660;&nbsp;&nbsp;eventos padronizados do ciclo de vida &mdash; dispara-e-esquece, n&atilde;o bloqueante&nbsp;&nbsp;&#9660;</div>
+
+        <div class="gbox warnbox">
+          <span class="legend">PLANO ANAL&Iacute;TICO &mdash; NOVO</span>
+          <div class="arch-row">
+            <div class="node"><b>Ingest&atilde;o de Eventos</b><small>SDK / HTTP &mdash; escritas em lote</small></div>
+            <div class="arch-ar">&#9654;</div>
+            <div class="node hot"><b>BRONZE</b><small>S3 &mdash; JSON.gz bruto e imut&aacute;vel</small></div>
+            <div class="arch-ar">&#9654;<small>s3:ObjectCreated</small></div>
+            <div class="node"><b>Normalizador Silver</b><small>validar &middot; normalizar &middot; deduplicar</small></div>
+            <div class="arch-ar">&#9654;</div>
+            <div class="node hot"><b>SILVER</b><small>S3 Parquet / Iceberg &mdash; can&ocirc;nico</small></div>
+            <div class="arch-ar">&#9654;</div>
+            <div class="node hot"><b>GOLD</b><small>ClickHouse &mdash; proje&ccedil;&otilde;es OLAP</small></div>
+          </div>
+          <div class="arch-down">&#9660;</div>
+          <div class="arch-fan">
+            <span class="chip">API de Hist&oacute;rico de Notifica&ccedil;&otilde;es</span>
+            <span class="chip">Dashboard operacional</span>
+            <span class="chip">An&aacute;lise de falhas</span>
+            <span class="chip">M&eacute;tricas de entrega e SLA</span>
+          </div>
+        </div>
+
+      </div>
+
+      <p class="lede reveal">Toda seta que cruza para o plano anal&iacute;tico &eacute; <strong class="hl">de m&atilde;o &uacute;nica e ass&iacute;ncrona</strong>. Bronze &eacute; o registro permanente, Silver o can&ocirc;nico, e Gold uma proje&ccedil;&atilde;o que pode ser reconstru&iacute;da a partir do Silver a qualquer momento.</p>
+    </div>
+    <div class="statusbar"><div>3 camadas medallion &middot; 1 dire&ccedil;&atilde;o de acoplamento &middot; 0 chamadas bloqueantes</div><div>ponta a ponta</div></div>
   </div>
 </section>
 
 <!-- ============================================================
      SLIDE 6 — THE PRINCIPLE
      ============================================================ -->
-<section class="slide" data-task="Principle">
+<section class="slide" data-task="Princ&iacute;pio">
   <div class="win narrow">
     <div class="titlebar"><span class="tb-icon">&#9635;</span>
-      <span class="tb-text">The load-bearing idea</span>
+      <span class="tb-text">A ideia que sustenta tudo</span>
       <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
     <div class="winbody" style="justify-content:center;gap:clamp(.7rem,2vh,1.4rem)">
-      <div class="kicker reveal">ARCHITECTURAL PRINCIPLE</div>
+      <div class="kicker reveal">PRINC&Iacute;PIO ARQUITETURAL</div>
       <p class="reveal" style="font-size:clamp(.95rem,2.3vw,1.6rem);line-height:1.45;color:var(--navy);font-weight:bold">
-        &ldquo;Applications emit <span style="color:var(--warn)">facts</span> about notification
-        lifecycle transitions. Storage and analytical systems decide how those facts are
-        persisted, normalized and queried.&rdquo;</p>
+        &ldquo;As aplica&ccedil;&otilde;es emitem <span style="color:var(--warn)">fatos</span> sobre as transi&ccedil;&otilde;es do ciclo de vida da
+        notifica&ccedil;&atilde;o. Os sistemas de armazenamento e an&aacute;lise decidem como esses fatos s&atilde;o
+        persistidos, normalizados e consultados.&rdquo;</p>
       <div class="grid2 reveal">
-        <div class="gbox on-white"><span class="legend" style="background:#fff">SERVICES EMIT</span>
+        <div class="gbox on-white"><span class="legend" style="background:#fff">OS SERVI&Ccedil;OS EMITEM</span>
           <pre class="code" style="box-shadow:none;padding:0">notification.delivery.failed
   error.code = UPSTREAM_TIMEOUT
   attempt    = 2
   retryable  = true</pre></div>
-        <div class="gbox on-white"><span class="legend" style="background:#fff">SERVICES NEVER EMIT</span>
+        <div class="gbox on-white"><span class="legend" style="background:#fff">OS SERVI&Ccedil;OS NUNCA EMITEM</span>
           <pre class="code" style="box-shadow:none;padding:0;color:var(--warn)">INSERT INTO clickhouse.
   notification_events
   (col, col, col)
   VALUES (...)</pre></div>
       </div>
-      <p class="lede reveal">The event is the contract. Everything downstream is an <strong class="hl">implementation detail we are allowed to change.</strong></p>
+      <p class="lede reveal">O evento &eacute; o contrato. Tudo depois dele &eacute; <strong class="hl">detalhe de implementa&ccedil;&atilde;o que temos permiss&atilde;o de mudar.</strong></p>
     </div>
   </div>
 </section>
@@ -698,111 +835,111 @@ pre.code{
 <section class="slide" data-task="Medallion">
   <div class="win">
     <div class="titlebar"><span class="tb-icon">&#9635;</span>
-      <span class="tb-text">Medallion &mdash; three layers, three different questions</span>
+      <span class="tb-text">Medallion &mdash; tr&ecirc;s camadas, tr&ecirc;s perguntas diferentes</span>
       <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
     <div class="winbody">
-      <h2 class="reveal"><span class="num">05</span>Each layer exists because it answers a question the others can't.</h2>
+      <h2 class="reveal"><span class="num">06</span>Cada camada existe porque responde a uma pergunta que as outras n&atilde;o respondem.</h2>
       <div class="grid3 reveal" style="flex:1;align-content:center">
         <div class="gbox"><span class="legend">BRONZE</span>
-          <p style="font-weight:bold;color:var(--navy);margin-bottom:.5em">&ldquo;What exactly happened?&rdquo;</p>
+          <p style="font-weight:bold;color:var(--navy);margin-bottom:.5em">&ldquo;O que exatamente aconteceu?&rdquo;</p>
           <ul class="bullets">
-            <li>Raw event, as emitted</li><li>Immutable, append-only</li>
-            <li>Schema-tolerant</li><li>S3 JSON.gz, batched</li>
-            <li>Permanent &mdash; the historical record</li>
+            <li>Evento bruto, como foi emitido</li><li>Imut&aacute;vel, apenas append</li>
+            <li>Tolerante a schema</li><li>S3 JSON.gz, em lote</li>
+            <li>Permanente &mdash; o registro hist&oacute;rico</li>
           </ul></div>
         <div class="gbox"><span class="legend">SILVER</span>
-          <p style="font-weight:bold;color:var(--navy);margin-bottom:.5em">&ldquo;What does it mean?&rdquo;</p>
+          <p style="font-weight:bold;color:var(--navy);margin-bottom:.5em">&ldquo;O que isso significa?&rdquo;</p>
           <ul class="bullets">
-            <li>One canonical schema</li><li>v1 / v2 / v3 collapsed into it</li>
-            <li>Deduped on <span class="mono">event_id</span></li>
-            <li>Bad events &#8594; quarantine</li>
-            <li>Parquet / Iceberg &mdash; open format</li>
+            <li>Um schema can&ocirc;nico</li><li>v1 / v2 / v3 colapsados nele</li>
+            <li>Deduplicado por <span class="mono">event_id</span></li>
+            <li>Eventos inv&aacute;lidos &#8594; quarentena</li>
+            <li>Parquet / Iceberg &mdash; formato aberto</li>
           </ul></div>
         <div class="gbox"><span class="legend">GOLD</span>
-          <p style="font-weight:bold;color:var(--navy);margin-bottom:.5em">&ldquo;What does the product ask?&rdquo;</p>
+          <p style="font-weight:bold;color:var(--navy);margin-bottom:.5em">&ldquo;O que o produto pergunta?&rdquo;</p>
           <ul class="bullets">
             <li><span class="mono">notification_current_state</span></li>
             <li><span class="mono">notification_attempts</span></li>
             <li><span class="mono">notification_errors</span></li>
             <li><span class="mono">notification_metrics_1m</span></li>
-            <li>ClickHouse &mdash; a projection, not the truth</li>
+            <li>ClickHouse &mdash; uma proje&ccedil;&atilde;o, n&atilde;o a verdade</li>
           </ul></div>
       </div>
-      <p class="lede reveal">Preservation, interpretation and query optimisation stay <strong class="hl">three separate concerns.</strong></p>
+      <p class="lede reveal">Preserva&ccedil;&atilde;o, interpreta&ccedil;&atilde;o e otimiza&ccedil;&atilde;o de consulta permanecem <strong class="hl">tr&ecirc;s preocupa&ccedil;&otilde;es separadas.</strong></p>
     </div>
-    <div class="statusbar"><div>Bronze and Silver do not know what OLAP engine exists</div><div>3 layers</div></div>
+    <div class="statusbar"><div>Bronze e Silver n&atilde;o sabem qual engine OLAP existe</div><div>3 camadas</div></div>
   </div>
 </section>
 
 <!-- ============================================================
      SLIDE 8 — LIFECYCLE EXAMPLE
      ============================================================ -->
-<section class="slide" data-task="Lifecycle">
+<section class="slide" data-task="Ciclo de vida">
   <div class="win">
     <div class="titlebar"><span class="tb-icon">&#9635;</span>
-      <span class="tb-text">ntf_01K4N61P9J7CGJQXD09WQPMBA2 &mdash; full lifecycle</span>
+      <span class="tb-text">ntf_01K4N61P9J7CGJQXD09WQPMBA2 &mdash; ciclo de vida completo</span>
       <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
     <div class="winbody">
-      <h2 class="reveal"><span class="num">06</span>One notification. Every transition. Reconstructable end to end.</h2>
+      <h2 class="reveal"><span class="num">07</span>Uma notifica&ccedil;&atilde;o. Cada transi&ccedil;&atilde;o. Reconstru&iacute;vel ponta a ponta.</h2>
       <div class="grid2 reveal" style="flex:1;min-height:0;grid-template-columns:1.35fr 1fr">
         <div class="gbox on-white">
-          <span class="legend" style="background:#fff">BRONZE &mdash; RAW EVENT LOG</span>
+          <span class="legend" style="background:#fff">BRONZE &mdash; LOG DE EVENTOS BRUTO</span>
           <div class="log">
             <div><span class="t">19:22:01.001</span> notification.requested</div>
             <div><span class="t">19:22:01.041</span> validation.succeeded</div>
             <div><span class="t">19:22:01.091</span> build.succeeded</div>
             <div><span class="t">19:22:01.100</span> enqueue.started</div>
             <div><span class="t">19:22:02.104</span> <span class="er">enqueue.failed</span> SQS_SEND_TIMEOUT</div>
-            <div><span class="t">19:22:03.141</span> <span class="ok">enqueued</span> <span class="t">(attempt 2)</span></div>
+            <div><span class="t">19:22:03.141</span> <span class="ok">enqueued</span> <span class="t">(tentativa 2)</span></div>
             <div><span class="t">19:22:03.488</span> delivery.started</div>
             <div><span class="t">19:22:33.493</span> <span class="er">delivery.failed</span> UPSTREAM_TIMEOUT</div>
             <div><span class="t">19:23:33.493</span> retry.started</div>
             <div><span class="t">19:23:33.831</span> <span class="ok">delivery.succeeded</span> HTTP 204</div>
           </div>
         </div>
-        <div class="gbox"><span class="legend">GOLD &mdash; DERIVED STATE</span>
+        <div class="gbox"><span class="legend">GOLD &mdash; ESTADO DERIVADO</span>
           <dl class="kv">
             <dt>status</dt><dd style="color:var(--ok)">DELIVERED</dd>
-            <dt>channel</dt><dd>WEBHOOK</dd>
-            <dt>queue attempts</dt><dd>2</dd>
-            <dt>delivery attempts</dt><dd>2</dd>
-            <dt>queue delay</dt><dd>~2 s</dd>
-            <dt>first failure</dt><dd style="color:var(--warn)">SQS_SEND_TIMEOUT</dd>
-            <dt>second failure</dt><dd style="color:var(--warn)">UPSTREAM_TIMEOUT</dd>
-            <dt>recovered</dt><dd>yes, on retry</dd>
-            <dt>total duration</dt><dd>~92 s</dd>
+            <dt>canal</dt><dd>WEBHOOK</dd>
+            <dt>tentativas de fila</dt><dd>2</dd>
+            <dt>tentativas de entrega</dt><dd>2</dd>
+            <dt>atraso na fila</dt><dd>~2 s</dd>
+            <dt>primeira falha</dt><dd style="color:var(--warn)">SQS_SEND_TIMEOUT</dd>
+            <dt>segunda falha</dt><dd style="color:var(--warn)">UPSTREAM_TIMEOUT</dd>
+            <dt>recuperada</dt><dd>sim, no retry</dd>
+            <dt>dura&ccedil;&atilde;o total</dt><dd>~92 s</dd>
           </dl>
         </div>
       </div>
-      <p class="lede reveal">Including the failure that happened <strong class="hl">before the queue</strong> &mdash; today's blind spot.</p>
+      <p class="lede reveal">Incluindo a falha que aconteceu <strong class="hl">antes da fila</strong> &mdash; o ponto cego de hoje.</p>
     </div>
-    <div class="statusbar"><div>10 events &#8594; 1 answer</div><div>~92s lifecycle</div></div>
+    <div class="statusbar"><div>10 eventos &#8594; 1 resposta</div><div>ciclo de ~92s</div></div>
   </div>
 </section>
 
 <!-- ============================================================
      SLIDE 9 — DECISION RECORD INDEX
      ============================================================ -->
-<section class="slide" data-task="Decisions">
+<section class="slide" data-task="Decis&otilde;es">
   <div class="win">
     <div class="titlebar"><span class="tb-icon">&#128193;</span>
-      <span class="tb-text">C:\arch\decision-records</span>
+      <span class="tb-text">C:\arq\registros-de-decisao</span>
       <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
-    <div class="menubar"><span><u>F</u>ile</span><span><u>E</u>dit</span><span><u>V</u>iew</span><span><u>H</u>elp</span></div>
+    <div class="menubar"><span><u>A</u>rquivo</span><span><u>E</u>ditar</span><span><u>E</u>xibir</span><span><u>A</u>juda</span></div>
     <div class="winbody field sunk" style="justify-content:center">
       <div class="explorer reveal">
-        <div class="file sel"><span class="ico">01</span><span class="nm"><b>Events are the contract</b>Producers emit facts, not rows</span></div>
-        <div class="file"><span class="ico">02</span><span class="nm"><b>Started + terminal events</b>Makes &ldquo;stuck&rdquo; detectable</span></div>
-        <div class="file"><span class="ico">03</span><span class="nm"><b>No transactional outbox</b>There is no database to commit against</span></div>
-        <div class="file"><span class="ico">04</span><span class="nm"><b>No Kafka (yet)</b>S3 already gives durability + replay</span></div>
-        <div class="file"><span class="ico">05</span><span class="nm"><b>No SQS Bronze&#8594;Silver</b>S3 already emits the trigger</span></div>
-        <div class="file"><span class="ico">06</span><span class="nm"><b>Normalize before OLAP</b>Keeps Gold replaceable</span></div>
-        <div class="file"><span class="ico">07</span><span class="nm"><b>Analytics off the hot path</b>ClickHouse down &#8800; delivery down</span></div>
+        <div class="file sel"><span class="ico">01</span><span class="nm"><b>Eventos s&atilde;o o contrato</b>Produtores emitem fatos, n&atilde;o linhas</span></div>
+        <div class="file"><span class="ico">02</span><span class="nm"><b>Eventos started + terminal</b>Torna &ldquo;travado&rdquo; detect&aacute;vel</span></div>
+        <div class="file"><span class="ico">03</span><span class="nm"><b>Sem outbox transacional</b>N&atilde;o existe banco para commitar junto</span></div>
+        <div class="file"><span class="ico">04</span><span class="nm"><b>Sem Kafka (por ora)</b>S3 j&aacute; d&aacute; durabilidade + replay</span></div>
+        <div class="file"><span class="ico">05</span><span class="nm"><b>Sem SQS Bronze&#8594;Silver</b>S3 j&aacute; emite o gatilho</span></div>
+        <div class="file"><span class="ico">06</span><span class="nm"><b>Normalizar antes do OLAP</b>Mant&eacute;m o Gold substitu&iacute;vel</span></div>
+        <div class="file"><span class="ico">07</span><span class="nm"><b>Analytics fora do caminho cr&iacute;tico</b>ClickHouse fora &#8800; entrega fora</span></div>
       </div>
-      <p class="lede reveal" style="text-align:center;margin-top:1em">Four of these are decisions to <strong class="hl">not build something.</strong><br>
-        <span class="muted">Each one records the trigger that would change our mind.</span></p>
+      <p class="lede reveal" style="text-align:center;margin-top:1em">Quatro delas s&atilde;o decis&otilde;es de <strong class="hl">n&atilde;o construir algo.</strong><br>
+        <span class="muted">Cada uma registra o gatilho que nos faria mudar de ideia.</span></p>
     </div>
-    <div class="statusbar"><div>7 object(s)</div><div>Status: ACCEPTED</div></div>
+    <div class="statusbar"><div>7 objeto(s)</div><div>Status: ACEITO</div></div>
   </div>
 </section>
 
@@ -813,263 +950,442 @@ pre.code{
 <section class="slide" data-task="ADR-001">
   <div class="win">
     <div class="titlebar"><span class="tb-icon">&#9635;</span>
-      <span class="tb-text">ADR-001 &mdash; Events are the integration contract</span>
+      <span class="tb-text">ADR-001 &mdash; Eventos s&atilde;o o contrato de integra&ccedil;&atilde;o</span>
       <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
     <div class="winbody">
-      <h2 class="reveal"><span class="num">ADR-001</span>Events are the integration contract</h2>
+      <h2 class="reveal"><span class="num">ADR-001</span>Eventos s&atilde;o o contrato de integra&ccedil;&atilde;o</h2>
       <div class="grid2 reveal" style="flex:1;min-height:0">
-        <div class="gbox"><span class="legend">CONTEXT</span>
-          <p>Notifications are assembled from many services. There is no shared vocabulary for
-          &ldquo;what just happened&rdquo;, and no shared place to write it down.</p></div>
-        <div class="gbox"><span class="legend">DECISION</span>
-          <p>Producers emit <b>standardized lifecycle events</b> &mdash;
-          <span class="mono">notification.enqueue.failed</span> &mdash; through a small SDK.
-          Never engine-specific rows.</p></div>
-        <div class="gbox"><span class="legend">WHY</span>
+        <div class="gbox"><span class="legend">CONTEXTO</span>
+          <p>Notifica&ccedil;&otilde;es s&atilde;o montadas a partir de v&aacute;rios servi&ccedil;os. N&atilde;o h&aacute; vocabul&aacute;rio comum para
+          &ldquo;o que acabou de acontecer&rdquo;, nem lugar comum para registrar isso.</p></div>
+        <div class="gbox"><span class="legend">DECIS&Atilde;O</span>
+          <p>Produtores emitem <b>eventos padronizados do ciclo de vida</b> &mdash;
+          <span class="mono">notification.enqueue.failed</span> &mdash; atrav&eacute;s de um SDK pequeno.
+          Nunca linhas espec&iacute;ficas de um engine.</p></div>
+        <div class="gbox"><span class="legend">POR QU&Ecirc;</span>
           <ul class="bullets">
-            <li>The event becomes the <b>stable interface</b> between platform and analytics</li>
-            <li>Storage layout, schema and query engine can all change behind it</li>
-            <li>Producers never learn that ClickHouse exists</li>
+            <li>O evento vira a <b>interface est&aacute;vel</b> entre plataforma e analytics</li>
+            <li>Layout de armazenamento, schema e engine de consulta podem mudar por tr&aacute;s dele</li>
+            <li>Produtores nunca ficam sabendo que o ClickHouse existe</li>
           </ul></div>
-        <div class="gbox warnbox"><span class="legend">REVISIT WHEN</span>
-          <p>Never. This is the load-bearing decision &mdash; every other record below is only
-          affordable <i>because</i> the contract is an event.</p></div>
+        <div class="gbox warnbox"><span class="legend">REVISAR QUANDO</span>
+          <p>Nunca. Esta &eacute; a decis&atilde;o que sustenta tudo &mdash; todos os outros registros abaixo s&oacute; s&atilde;o
+          vi&aacute;veis <i>porque</i> o contrato &eacute; um evento.</p></div>
       </div>
     </div>
-    <div class="statusbar"><div>Status: ACCEPTED &mdash; 2026-09-08</div><div>1 / 7</div></div>
+    <div class="statusbar"><div>Status: ACEITO &mdash; 2026-09-08</div><div>1 / 7</div></div>
   </div>
 </section>
 
 <section class="slide" data-task="ADR-002">
   <div class="win">
     <div class="titlebar"><span class="tb-icon">&#9635;</span>
-      <span class="tb-text">ADR-002 &mdash; Every operation emits started + terminal</span>
+      <span class="tb-text">ADR-002 &mdash; Toda opera&ccedil;&atilde;o emite started + terminal</span>
       <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
     <div class="winbody">
-      <h2 class="reveal"><span class="num">ADR-002</span>Every operation emits a started <i>and</i> a terminal event</h2>
+      <h2 class="reveal"><span class="num">ADR-002</span>Toda opera&ccedil;&atilde;o emite um evento started <i>e</i> um terminal</h2>
       <div class="grid2 reveal" style="flex:1;min-height:0">
-        <div class="gbox"><span class="legend">CONTEXT</span>
-          <p>A worker can die mid-operation. If we only emit outcomes, a crash is
-          indistinguishable from work that never started.</p></div>
-        <div class="gbox"><span class="legend">DECISION</span>
-          <p>Validation, build, enqueue, delivery and callback each emit
-          <span class="mono">*.started</span> followed by
-          <span class="mono">*.succeeded</span> or <span class="mono">*.failed</span>.</p></div>
-        <div class="gbox"><span class="legend">WHY</span>
-          <p style="margin-bottom:.5em"><b>started + no terminal + elapsed &gt; threshold</b></p>
-          <p>lets us derive <b>STUCK</b> / <b>UNKNOWN</b> honestly &mdash; instead of silently
-          inferring success or failure. Crashes become a queryable state.</p></div>
-        <div class="gbox warnbox"><span class="legend">TRADE-OFF ACCEPTED</span>
-          <p>Roughly 2&times; the event volume. Cheap in S3, and it is the only mechanism that
-          catches the failures nobody reported.</p></div>
+        <div class="gbox"><span class="legend">CONTEXTO</span>
+          <p>Um worker pode morrer no meio da opera&ccedil;&atilde;o. Se emitirmos apenas desfechos, um crash fica
+          indistingu&iacute;vel de um trabalho que nunca come&ccedil;ou.</p></div>
+        <div class="gbox"><span class="legend">DECIS&Atilde;O</span>
+          <p>Valida&ccedil;&atilde;o, build, enfileiramento, entrega e callback emitem cada um
+          <span class="mono">*.started</span> seguido de
+          <span class="mono">*.succeeded</span> ou <span class="mono">*.failed</span>.</p></div>
+        <div class="gbox"><span class="legend">POR QU&Ecirc;</span>
+          <p style="margin-bottom:.5em"><b>started + sem terminal + tempo decorrido &gt; limite</b></p>
+          <p>permite derivar <b>TRAVADO</b> / <b>DESCONHECIDO</b> honestamente &mdash; em vez de inferir sucesso ou falha
+          em sil&ecirc;ncio. Crashes viram um estado consult&aacute;vel.</p></div>
+        <div class="gbox warnbox"><span class="legend">TRADE-OFF ACEITO</span>
+          <p>Cerca de 2&times; o volume de eventos. Barato no S3, e &eacute; o &uacute;nico mecanismo que
+          pega as falhas que ningu&eacute;m reportou.</p></div>
       </div>
     </div>
-    <div class="statusbar"><div>Status: ACCEPTED &mdash; 2026-09-08</div><div>2 / 7</div></div>
+    <div class="statusbar"><div>Status: ACEITO &mdash; 2026-09-08</div><div>2 / 7</div></div>
   </div>
 </section>
 
 <section class="slide" data-task="ADR-003">
   <div class="win">
     <div class="titlebar"><span class="tb-icon">&#9635;</span>
-      <span class="tb-text">ADR-003 &mdash; No transactional outbox</span>
+      <span class="tb-text">ADR-003 &mdash; Sem outbox transacional</span>
       <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
     <div class="winbody">
-      <h2 class="reveal"><span class="num">ADR-003</span>No transactional outbox</h2>
+      <h2 class="reveal"><span class="num">ADR-003</span>Sem outbox transacional</h2>
       <div class="grid2 reveal" style="flex:1;min-height:0">
-        <div class="gbox on-white"><span class="legend" style="background:#fff">THE PATTERN ASSUMES</span>
+        <div class="gbox on-white"><span class="legend" style="background:#fff">O PADR&Atilde;O PRESSUP&Otilde;E</span>
           <pre class="code" style="box-shadow:none;padding:0">BEGIN;
   INSERT INTO notifications (...);
   INSERT INTO outbox (...);
 COMMIT;</pre>
-          <p style="margin-top:.6em">&hellip; that the entity and the event live in <b>one</b> transactional database.</p></div>
-        <div class="gbox"><span class="legend">DECISION</span>
-          <p>Don't build one. The durable boundary is <b>S3 Bronze</b>: the event is written to
-          permanent storage before anything downstream is trusted.</p></div>
-        <div class="gbox"><span class="legend">WHY</span>
+          <p style="margin-top:.6em">&hellip; que a entidade e o evento vivem em <b>um mesmo</b> banco transacional.</p></div>
+        <div class="gbox"><span class="legend">DECIS&Atilde;O</span>
+          <p>N&atilde;o construir um. A fronteira dur&aacute;vel &eacute; <b>S3 Bronze</b>: o evento &eacute; gravado em
+          armazenamento permanente antes de qualquer coisa a jusante ser confi&aacute;vel.</p></div>
+        <div class="gbox"><span class="legend">POR QU&Ecirc;</span>
           <ul class="bullets">
-            <li>There is no central notification table to commit against</li>
-            <li>Inventing one purely for analytics would add real state to the hot path and
-                reshape the existing platform</li>
-            <li>We keep the idea that matters &mdash; <b>durability before downstream</b> &mdash;
-                and drop the mechanism we can't afford</li>
+            <li>N&atilde;o existe tabela central de notifica&ccedil;&atilde;o para commitar junto</li>
+            <li>Inventar uma s&oacute; para analytics acrescentaria estado real ao caminho cr&iacute;tico e
+                remodelaria a plataforma existente</li>
+            <li>Mantemos a ideia que importa &mdash; <b>durabilidade antes do downstream</b> &mdash;
+                e descartamos o mecanismo que n&atilde;o podemos pagar</li>
           </ul></div>
-        <div class="gbox warnbox"><span class="legend">REVISIT WHEN</span>
-          <p>A transactional notification store appears for <i>product</i> reasons. Then a real
-          outbox is nearly free and worth adding.</p></div>
+        <div class="gbox warnbox"><span class="legend">REVISAR QUANDO</span>
+          <p>Surgir um store transacional de notifica&ccedil;&otilde;es por motivos de <i>produto</i>. A&iacute; um outbox de verdade fica quase de gra&ccedil;a e vale a pena.</p></div>
       </div>
     </div>
-    <div class="statusbar"><div>Status: ACCEPTED &mdash; 2026-09-08</div><div>3 / 7</div></div>
+    <div class="statusbar"><div>Status: ACEITO &mdash; 2026-09-08</div><div>3 / 7</div></div>
   </div>
 </section>
 
 <section class="slide" data-task="ADR-004">
   <div class="win">
     <div class="titlebar"><span class="tb-icon">&#9635;</span>
-      <span class="tb-text">ADR-004 &mdash; No Kafka, for now</span>
+      <span class="tb-text">ADR-004 &mdash; Sem Kafka, por ora</span>
       <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
     <div class="winbody">
-      <h2 class="reveal"><span class="num">ADR-004</span>No Kafka &mdash; for now, and not on principle</h2>
+      <h2 class="reveal"><span class="num">ADR-004</span>Sem Kafka &mdash; por ora, e n&atilde;o por princ&iacute;pio</h2>
       <div class="grid2 reveal" style="flex:1;min-height:0">
-        <div class="gbox"><span class="legend">CONTEXT</span>
-          <p>Kafka would be a legitimate fit: durable streams, replay, consumer groups, partition
-          ordering, many independent consumers.</p>
+        <div class="gbox"><span class="legend">CONTEXTO</span>
+          <p>Kafka seria uma escolha leg&iacute;tima: streams dur&aacute;veis, replay, consumer groups, ordena&ccedil;&atilde;o
+          por parti&ccedil;&atilde;o, muitos consumidores independentes.</p>
           <div class="flow h" style="margin-top:.7em">
             <div class="node ghost">App</div><div class="arrow">&#9658;</div>
             <div class="node" style="opacity:.55">Kafka</div><div class="arrow">&#9658;</div>
             <div class="node ghost">Bronze</div>
           </div></div>
-        <div class="gbox"><span class="legend">DECISION</span>
-          <p>Go straight from ingestion to Bronze.</p>
+        <div class="gbox"><span class="legend">DECIS&Atilde;O</span>
+          <p>Ir direto da ingest&atilde;o para o Bronze.</p>
           <div class="flow h" style="margin-top:.7em">
             <div class="node">App</div><div class="arrow">&#9658;</div><div class="node hot">Bronze</div>
           </div></div>
-        <div class="gbox"><span class="legend">WHY</span>
+        <div class="gbox"><span class="legend">POR QU&Ecirc;</span>
           <ul class="bullets">
-            <li>Bronze is <b>already durable and replayable</b> &mdash; Kafka's core value here is
-                a capability we have</li>
-            <li>It would be a second layer to operate in front of permanent storage</li>
-            <li>Operational cost is paid daily; the benefit is currently hypothetical</li>
+            <li>Bronze j&aacute; &eacute; <b>dur&aacute;vel e reprocess&aacute;vel</b> &mdash; o valor central do Kafka aqui &eacute;
+                uma capacidade que j&aacute; temos</li>
+            <li>Seria uma segunda camada para operar na frente do armazenamento permanente</li>
+            <li>O custo operacional se paga todo dia; o benef&iacute;cio hoje &eacute; hipot&eacute;tico</li>
           </ul></div>
-        <div class="gbox warnbox"><span class="legend">REVISIT WHEN</span>
-          <p>Sustained high throughput &middot; many real-time consumers &middot; streaming
-          transforms &middot; strict partition ordering &middot; sub-second latency.<br>
-          <b>The event contract and the medallion layout don't change when it arrives.</b></p></div>
+        <div class="gbox warnbox"><span class="legend">REVISAR QUANDO</span>
+          <p>Throughput alto sustentado &middot; muitos consumidores em tempo real &middot; transforma&ccedil;&otilde;es
+          de streaming &middot; ordena&ccedil;&atilde;o estrita por parti&ccedil;&atilde;o &middot; lat&ecirc;ncia sub-segundo.<br>
+          <b>O contrato de evento e o layout medallion n&atilde;o mudam quando ele chegar.</b></p></div>
       </div>
     </div>
-    <div class="statusbar"><div>Status: ACCEPTED &mdash; deliberately reversible</div><div>4 / 7</div></div>
+    <div class="statusbar"><div>Status: ACEITO &mdash; deliberadamente revers&iacute;vel</div><div>4 / 7</div></div>
   </div>
 </section>
 
 <section class="slide" data-task="ADR-005">
   <div class="win">
     <div class="titlebar"><span class="tb-icon">&#9635;</span>
-      <span class="tb-text">ADR-005 &mdash; No SQS between Bronze and Silver</span>
+      <span class="tb-text">ADR-005 &mdash; Sem SQS entre Bronze e Silver</span>
       <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
     <div class="winbody">
-      <h2 class="reveal"><span class="num">ADR-005</span>No queue between Bronze and Silver</h2>
+      <h2 class="reveal"><span class="num">ADR-005</span>Sem fila entre Bronze e Silver</h2>
       <div class="grid2 reveal" style="flex:1;min-height:0">
-        <div class="gbox"><span class="legend">CONTEXT</span>
-          <p>The obvious shape is Bronze &#8594; SQS &#8594; Silver processor, for buffering and
-          retry control.</p></div>
-        <div class="gbox"><span class="legend">DECISION</span>
+        <div class="gbox"><span class="legend">CONTEXTO</span>
+          <p>O formato &oacute;bvio &eacute; Bronze &#8594; SQS &#8594; processador Silver, para buffer e
+          controle de retry.</p></div>
+        <div class="gbox"><span class="legend">DECIS&Atilde;O</span>
           <div class="flow" style="margin-top:.2em">
             <div class="node hot">S3 Bronze</div>
             <div class="arrow">&#9660; <span style="font-size:.85em">s3:ObjectCreated</span></div>
-            <div class="node">Silver Normalizer &mdash; Lambda</div>
+            <div class="node">Normalizador Silver &mdash; Lambda</div>
           </div>
           <p style="margin-top:.6em;text-align:center" class="muted"><span class="mono">prefix: bronze/notification-events/</span></p></div>
-        <div class="gbox"><span class="legend">WHY</span>
+        <div class="gbox"><span class="legend">POR QU&Ecirc;</span>
           <ul class="bullets">
-            <li>S3 <b>already emits the trigger</b> &mdash; a queue here is transport we'd operate for nothing</li>
-            <li>Fewer moving parts between two systems we already run</li>
-            <li>Bronze is the retry source of truth &mdash; a lost invocation is recoverable</li>
+            <li>S3 <b>j&aacute; emite o gatilho</b> &mdash; uma fila aqui &eacute; transporte que oper&aacute;ramos &agrave; toa</li>
+            <li>Menos partes m&oacute;veis entre dois sistemas que j&aacute; rodamos</li>
+            <li>Bronze &eacute; a fonte da verdade para retry &mdash; uma invoca&ccedil;&atilde;o perdida &eacute; recuper&aacute;vel</li>
           </ul></div>
-        <div class="gbox warnbox"><span class="legend">REVISIT WHEN</span>
-          <p>We need backpressure, burst buffering, concurrency limits or a DLQ. Then:</p>
+        <div class="gbox warnbox"><span class="legend">REVISAR QUANDO</span>
+          <p>Precisarmos de backpressure, buffer de rajada, limite de concorr&ecirc;ncia ou DLQ. A&iacute;:</p>
           <div class="flow h" style="margin-top:.5em">
             <div class="node">S3</div><div class="arrow">&#9658;</div>
             <div class="node">EventBridge</div><div class="arrow">&#9658;</div>
             <div class="node">SQS</div><div class="arrow">&#9658;</div>
             <div class="node">Workers</div>
           </div>
-          <p style="margin-top:.5em"><b>No producer change. No Bronze change.</b></p></div>
+          <p style="margin-top:.5em"><b>Sem mudan&ccedil;a nos produtores. Sem mudan&ccedil;a no Bronze.</b></p></div>
       </div>
     </div>
-    <div class="statusbar"><div>Status: ACCEPTED &mdash; deliberately reversible</div><div>5 / 7</div></div>
+    <div class="statusbar"><div>Status: ACEITO &mdash; deliberadamente revers&iacute;vel</div><div>5 / 7</div></div>
   </div>
 </section>
 
 <section class="slide" data-task="ADR-006">
   <div class="win">
     <div class="titlebar"><span class="tb-icon">&#9635;</span>
-      <span class="tb-text">ADR-006 &mdash; Normalize before the OLAP engine</span>
+      <span class="tb-text">ADR-006 &mdash; Normalizar antes do engine OLAP</span>
       <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
     <div class="winbody">
-      <h2 class="reveal"><span class="num">ADR-006</span>Normalize in Silver &mdash; before the OLAP engine</h2>
+      <h2 class="reveal"><span class="num">ADR-006</span>Normalizar no Silver &mdash; antes do engine OLAP</h2>
       <div class="grid2 reveal" style="flex:1;min-height:0">
-        <div class="gbox"><span class="legend">CONTEXT</span>
-          <p>Bronze &#8594; ClickHouse directly is simpler, and it works. Materialized views could
-          fold v1 / v2 / v3 events into canonical columns.</p></div>
-        <div class="gbox"><span class="legend">DECISION</span>
-          <p>The canonical model lives in <b>Parquet / Iceberg on S3</b>, defined once, before any
-          engine sees it. ClickHouse loads an already-canonical dataset.</p></div>
-        <div class="gbox"><span class="legend">WHY</span>
+        <div class="gbox"><span class="legend">CONTEXTO</span>
+          <p>Bronze &#8594; ClickHouse direto &eacute; mais simples, e funciona. Views materializadas poderiam
+          dobrar eventos v1 / v2 / v3 em colunas can&ocirc;nicas.</p></div>
+        <div class="gbox"><span class="legend">DECIS&Atilde;O</span>
+          <p>O modelo can&ocirc;nico vive em <b>Parquet / Iceberg no S3</b>, definido uma vez, antes de qualquer
+          engine v&ecirc;-lo. O ClickHouse carrega um dataset j&aacute; can&ocirc;nico.</p></div>
+        <div class="gbox"><span class="legend">POR QU&Ecirc;</span>
           <ul class="bullets">
-            <li>If the transform lives in ClickHouse SQL, <b>ClickHouse becomes the data model</b></li>
-            <li>Silver is a technology-neutral boundary &mdash; Gold is a projection we can drop
-                and rebuild from S3 at any time</li>
-            <li>Engine independence was a stated goal; this is the decision that actually buys it</li>
+            <li>Se a transforma&ccedil;&atilde;o vive no SQL do ClickHouse, <b>o ClickHouse vira o modelo de dados</b></li>
+            <li>Silver &eacute; uma fronteira neutra de tecnologia &mdash; Gold &eacute; uma proje&ccedil;&atilde;o que podemos
+                dropar e reconstruir do S3 a qualquer momento</li>
+            <li>Independ&ecirc;ncia de engine era um objetivo declarado; esta &eacute; a decis&atilde;o que de fato a compra</li>
           </ul></div>
-        <div class="gbox warnbox"><span class="legend">WHAT THIS UNLOCKS</span>
+        <div class="gbox warnbox"><span class="legend">O QUE ISSO DESTRAVA</span>
           <div class="flow h" style="margin:.3em 0 .6em">
             <div class="node hot">Silver</div><div class="arrow">&#9658;</div>
             <div class="node">ClickHouse</div><div class="node">Pinot</div>
             <div class="node">Druid</div><div class="node">BigQuery</div>
           </div>
-          <p>Swapping engines replays <b>Silver</b>, not production notification traffic.</p></div>
+          <p>Trocar de engine reprocessa o <b>Silver</b>, n&atilde;o o tr&aacute;fego de notifica&ccedil;&otilde;es em produ&ccedil;&atilde;o.</p></div>
       </div>
     </div>
-    <div class="statusbar"><div>Status: ACCEPTED &mdash; 2026-09-08</div><div>6 / 7</div></div>
+    <div class="statusbar"><div>Status: ACEITO &mdash; 2026-09-08</div><div>6 / 7</div></div>
   </div>
 </section>
 
 <section class="slide" data-task="ADR-007">
   <div class="win">
     <div class="titlebar"><span class="tb-icon">&#9635;</span>
-      <span class="tb-text">ADR-007 &mdash; Analytics stays off the critical path</span>
+      <span class="tb-text">ADR-007 &mdash; Analytics fora do caminho cr&iacute;tico</span>
       <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
     <div class="winbody">
-      <h2 class="reveal"><span class="num">ADR-007</span>Analytics stays outside the delivery path</h2>
+      <h2 class="reveal"><span class="num">ADR-007</span>Analytics fica fora do caminho de entrega</h2>
       <div class="grid2 reveal" style="flex:1;min-height:0">
-        <div class="gbox"><span class="legend">CONTEXT</span>
-          <p>Observability infrastructure that can break the system it observes is worse than no
-          observability at all.</p></div>
-        <div class="gbox"><span class="legend">DECISION</span>
-          <p>Event emission is <b>fire-and-forget</b>. No synchronous write, no blocking call, no
-          shared failure domain with delivery.</p></div>
-        <div class="gbox"><span class="legend">WHY &mdash; WHEN CLICKHOUSE IS DOWN</span>
+        <div class="gbox"><span class="legend">CONTEXTO</span>
+          <p>Infraestrutura de observabilidade que pode quebrar o sistema que observa &eacute; pior do que
+          n&atilde;o ter observabilidade nenhuma.</p></div>
+        <div class="gbox"><span class="legend">DECIS&Atilde;O</span>
+          <p>A emiss&atilde;o de evento &eacute; <b>dispara-e-esquece</b>. Sem escrita s&iacute;ncrona, sem chamada bloqueante, sem
+          dom&iacute;nio de falha compartilhado com a entrega.</p></div>
+        <div class="gbox"><span class="legend">POR QU&Ecirc; &mdash; QUANDO O CLICKHOUSE CAI</span>
           <ul class="bullets">
-            <li>Notifications keep being delivered</li>
-            <li>Bronze keeps accumulating</li>
-            <li>Silver keeps being generated</li>
-            <li>ClickHouse catches up when it returns &mdash; or is <b>rebuilt from Silver</b></li>
+            <li>As notifica&ccedil;&otilde;es continuam sendo entregues</li>
+            <li>Bronze continua acumulando</li>
+            <li>Silver continua sendo gerado</li>
+            <li>ClickHouse se atualiza quando volta &mdash; ou &eacute; <b>reconstru&iacute;do a partir do Silver</b></li>
           </ul></div>
-        <div class="gbox warnbox"><span class="legend">THE INVARIANT</span>
+        <div class="gbox warnbox"><span class="legend">A INVARIANTE</span>
           <p style="font-size:clamp(.8rem,1.5vw,1.15rem);font-weight:bold;color:var(--navy);text-align:center;margin-top:.4em">
-            analytics failure<br><span style="color:var(--warn);font-size:1.3em">&#8800;</span><br>notification failure</p></div>
+            falha no analytics<br><span style="color:var(--warn);font-size:1.3em">&#8800;</span><br>falha na notifica&ccedil;&atilde;o</p></div>
       </div>
     </div>
-    <div class="statusbar"><div>Status: ACCEPTED &mdash; non-negotiable</div><div>7 / 7</div></div>
+    <div class="statusbar"><div>Status: ACEITO &mdash; inegoci&aacute;vel</div><div>7 / 7</div></div>
   </div>
 </section>
 
 <!-- ============================================================
      SLIDE 17 — SUMMARY / SHUTDOWN
      ============================================================ -->
-<section class="slide" data-task="Summary">
+<!-- ============================================================
+     SLIDE 18 — WHAT THE DATA UNLOCKS (overview)
+     ============================================================ -->
+<section class="slide" data-task="Valor">
+  <div class="win">
+    <div class="titlebar"><span class="tb-icon">&#9635;</span>
+      <span class="tb-text">Quem pergunta &mdash; e o que finalmente tem resposta</span>
+      <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
+    <div class="menubar"><span><u>A</u>rquivo</span><span><u>E</u>xibir</span><span><u>A</u>juda</span></div>
+    <div class="winbody">
+      <h2 class="reveal"><span class="num">08</span>Quatro p&uacute;blicos, um &uacute;nico dataset.</h2>
+      <div class="grid2 reveal" style="flex:1;min-height:0;align-content:center">
+        <div class="gbox"><span class="legend">USU&Aacute;RIO FINAL</span>
+          <p style="font-weight:bold;color:var(--navy);margin-bottom:.4em">&ldquo;Voc&ecirc;s chegaram a me enviar?&rdquo;</p>
+          <ul class="bullets">
+            <li>Hist&oacute;rico de notifica&ccedil;&otilde;es self-service</li>
+            <li>Status, canal e timestamp por item</li>
+            <li>Respondido por <span class="mono">notification_current_state</span></li>
+          </ul></div>
+        <div class="gbox"><span class="legend">SUPORTE</span>
+          <p style="font-weight:bold;color:var(--navy);margin-bottom:.4em">&ldquo;O que aconteceu com esta aqui?&rdquo;</p>
+          <ul class="bullets">
+            <li>Timeline completa a partir de um <span class="mono">notification_id</span></li>
+            <li>Tentativas, erros, provider, lat&ecirc;ncia</li>
+            <li>Respondido por <span class="mono">notification_attempts</span></li>
+          </ul></div>
+        <div class="gbox"><span class="legend">JUR&Iacute;DICO E COMPLIANCE</span>
+          <p style="font-weight:bold;color:var(--navy);margin-bottom:.4em">&ldquo;Prove o que foi enviado, e quando.&rdquo;</p>
+          <ul class="bullets">
+            <li>Evid&ecirc;ncia bruta e imut&aacute;vel no Bronze</li>
+            <li>Reten&ccedil;&atilde;o e auditoria independentes do OLAP</li>
+            <li>Respondido por <span class="mono">S3 Bronze + Silver</span></li>
+          </ul></div>
+        <div class="gbox"><span class="legend">OPERA&Ccedil;&Otilde;ES E PRODUTO</span>
+          <p style="font-weight:bold;color:var(--navy);margin-bottom:.4em">&ldquo;Tem algo degradando agora?&rdquo;</p>
+          <ul class="bullets">
+            <li>Taxa de falha por canal, provider, tenant</li>
+            <li>Lat&ecirc;ncia de entrega p50 / p95 / p99</li>
+            <li>Respondido por <span class="mono">notification_metrics_1m</span></li>
+          </ul></div>
+      </div>
+      <p class="lede reveal">Nenhuma dessas perguntas tinha resposta antes, porque <strong class="hl">nenhum sistema sozinho continha o ciclo de vida inteiro.</strong></p>
+    </div>
+    <div class="statusbar"><div>Um dataset can&ocirc;nico &middot; quatro consumidores</div><div>4 p&uacute;blicos</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 19 — END USER SELF-SERVICE
+     ============================================================ -->
+<section class="slide" data-task="Usu&aacute;rio">
+  <div class="win">
+    <div class="titlebar"><span class="tb-icon">&#9635;</span>
+      <span class="tb-text">Minhas Notifica&ccedil;&otilde;es &mdash; usr_802941</span>
+      <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
+    <div class="winbody">
+      <h2 class="reveal"><span class="num">09</span>O pr&oacute;prio usu&aacute;rio responde &agrave; sua pergunta, sem abrir chamado.</h2>
+
+      <div class="journey reveal">
+        <div class="step"><span class="badge">U</span><b>Usu&aacute;rio final</b><small>&ldquo;Recebi o aviso de pagamento?&rdquo;</small></div>
+        <div class="sep">&#9654;</div>
+        <div class="step"><span class="badge">&#9635;</span><b>P&aacute;gina de notifica&ccedil;&otilde;es</b><small>self-service, no produto</small></div>
+        <div class="sep">&#9654;</div>
+        <div class="step"><span class="badge">&#8644;</span><b>API de Hist&oacute;rico</b><small>filtra por usu&aacute;rio + per&iacute;odo</small></div>
+        <div class="sep">&#9654;</div>
+        <div class="step win"><span class="badge">G</span><b>Gold</b><small><span class="mono">notification_current_state</span></small></div>
+        <div class="sep">&#9654;</div>
+        <div class="step"><span class="badge">&#10003;</span><b>Resposta em ~1s</b><small>nenhum chamado aberto</small></div>
+      </div>
+
+      <div class="gbox reveal" style="flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center">
+        <span class="legend">O QUE O USU&Aacute;RIO V&Ecirc;</span>
+        <div class="log">
+          <div><span class="t">19:23:33</span> Pagamento confirmado &nbsp; webhook &nbsp; <span class="ok">DELIVERED</span> <span class="t">&middot; 2 tentativas &middot; recuperada no retry</span></div>
+          <div><span class="t">18:02:11</span> Fatura dispon&iacute;vel &nbsp;&nbsp; email &nbsp;&nbsp;&nbsp; <span class="ok">DELIVERED</span> <span class="t">&middot; 1 tentativa</span></div>
+          <div><span class="t">17:44:09</span> Senha alterada &nbsp;&nbsp;&nbsp; sms &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="er">FAILED</span> <span class="t">&middot; operadora rejeitou &middot; retry agendado</span></div>
+        </div>
+      </div>
+
+      <p class="lede reveal">Transpar&ecirc;ncia &eacute; o canal de suporte mais barato: o chamado que nunca &eacute; aberto custa <strong class="hl">zero para resolver.</strong></p>
+    </div>
+    <div class="statusbar"><div>Caminho de leitura: API de Hist&oacute;rico &#8594; ClickHouse</div><div>self-service</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 20 — SUPPORT RESOLUTION TIME
+     ============================================================ -->
+<section class="slide" data-task="Suporte">
+  <div class="win">
+    <div class="titlebar"><span class="tb-icon">&#9635;</span>
+      <span class="tb-text">Chamado #48120 &mdash; &ldquo;cliente diz que nunca recebeu&rdquo;</span>
+      <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
+    <div class="winbody">
+      <h2 class="reveal"><span class="num">10</span>O mesmo chamado, antes e depois.</h2>
+
+      <div class="grid2 reveal" style="flex:1;min-height:0;align-content:center">
+        <div class="gbox warnbox">
+          <span class="legend">ANTES &mdash; SEM HIST&Oacute;RICO DE EVENTOS</span>
+          <ul class="bullets">
+            <li>Escalar para um engenheiro com acesso a produ&ccedil;&atilde;o</li>
+            <li>Grep de logs em builder, dispatcher, fila e workers</li>
+            <li>Correlacionar por timestamp e chute</li>
+            <li>Logs j&aacute; rotacionados &#8594; inconclusivo</li>
+            <li>Resposta: <span class="mono">&ldquo;achamos que foi enviado&rdquo;</span></li>
+          </ul></div>
+        <div class="gbox">
+          <span class="legend">DEPOIS &mdash; UMA CONSULTA</span>
+          <ul class="bullets">
+            <li>Colar o <span class="mono">notification_id</span> no console</li>
+            <li>Timeline completa: requested &#8594; enqueued &#8594; delivered</li>
+            <li>N&uacute;mero de tentativas, error code, provider, lat&ecirc;ncia</li>
+            <li>Suporte de primeiro n&iacute;vel resolve &mdash; sem escalar</li>
+            <li>Resposta: <span class="mono">UPSTREAM_TIMEOUT, retried, delivered 19:23:33</span></li>
+          </ul></div>
+      </div>
+
+      <div class="metrics reveal">
+        <div class="metric bad"><b>horas &#8594; dias</b><small>escala&ccedil;&atilde;o, arqueologia de log</small></div>
+        <div class="metric"><b>segundos</b><small>uma busca indexada</small></div>
+        <div class="metric"><b>n&iacute;vel&nbsp;1</b><small>sem engenheiro no caminho</small></div>
+      </div>
+
+      <p class="lede reveal">A economia n&atilde;o &eacute; s&oacute; tempo &mdash; &eacute; <strong class="hl">tirar engenheiros do caminho do suporte</strong> e trocar opini&atilde;o por evid&ecirc;ncia.</p>
+    </div>
+    <div class="statusbar"><div>notification_id &#8594; ciclo de vida completo</div><div>tempo de resolu&ccedil;&atilde;o</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 21 — COMPLIANCE & LEGAL SAFEGUARDING
+     ============================================================ -->
+<section class="slide" data-task="Compliance">
+  <div class="win">
+    <div class="titlebar"><span class="tb-icon">&#9635;</span>
+      <span class="tb-text">Evid&ecirc;ncia &mdash; auditoria, disputas e reten&ccedil;&atilde;o</span>
+      <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
+    <div class="winbody">
+      <h2 class="reveal"><span class="num">11</span>Bronze n&atilde;o &eacute; backup. Bronze &eacute; a evid&ecirc;ncia.</h2>
+
+      <div class="journey reveal">
+        <div class="step"><span class="badge">!</span><b>Disputa ou auditoria</b><small>&ldquo;voc&ecirc;s nunca me avisaram&rdquo;</small></div>
+        <div class="sep">&#9654;</div>
+        <div class="step"><span class="badge">?</span><b>Pedido jur&iacute;dico</b><small>escopo: usu&aacute;rio + per&iacute;odo</small></div>
+        <div class="sep">&#9654;</div>
+        <div class="step win"><span class="badge">B</span><b>S3 Bronze</b><small>evento bruto, exatamente como emitido</small></div>
+        <div class="sep">&#9654;</div>
+        <div class="step"><span class="badge">&#10003;</span><b>Pacote de evid&ecirc;ncias</b><small>timestamps, tentativas, resposta do provider</small></div>
+      </div>
+
+      <div class="grid3 reveal" style="flex:1;min-height:0;align-content:center">
+        <div class="gbox"><span class="legend">TRILHA IMUT&Aacute;VEL</span>
+          <ul class="bullets">
+            <li>Apenas append, nunca atualizado no lugar</li>
+            <li>Payload original preservado literalmente</li>
+            <li>Independente do ClickHouse &mdash; sobrevive a um rebuild</li>
+          </ul></div>
+        <div class="gbox"><span class="legend">RETEN&Ccedil;&Atilde;O E PRIVACIDADE</span>
+          <ul class="bullets">
+            <li>Pol&iacute;ticas de lifecycle por prefixo</li>
+            <li>PII mascarada na entrada do Silver</li>
+            <li>Pedidos de exclus&atilde;o com escopo por <span class="mono">user_id</span></li>
+          </ul></div>
+        <div class="gbox"><span class="legend">PROVA DE TENTATIVA</span>
+          <ul class="bullets">
+            <li>Toda tentativa registrada, n&atilde;o s&oacute; a &uacute;ltima</li>
+            <li>Resposta do provider e error code guardados</li>
+            <li>Falhas atribu&iacute;veis: provider, rede ou n&oacute;s</li>
+          </ul></div>
+      </div>
+
+      <p class="lede reveal">Reguladores e tribunais n&atilde;o aceitam um dashboard. Eles aceitam <strong class="hl">um registro imut&aacute;vel que voc&ecirc; consegue reproduzir anos depois.</strong></p>
+    </div>
+    <div class="statusbar"><div>Bronze retido independentemente do banco anal&iacute;tico</div><div>evid&ecirc;ncia</div></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 22 — SUMMARY
+     ============================================================ -->
+<section class="slide" data-task="Resumo">
   <div class="win narrow">
     <div class="titlebar"><span class="tb-icon">&#9635;</span>
-      <span class="tb-text">Shut Down</span>
+      <span class="tb-text">Desligar</span>
       <span class="tb-btns"><b>_</b><b>&#9633;</b><b>&#10005;</b></span></div>
     <div class="winbody" style="justify-content:center;gap:clamp(.6rem,2vh,1.3rem);align-items:center;text-align:center">
-      <div class="kicker reveal">THE ARCHITECTURE IN FOUR LINES</div>
+      <div class="kicker reveal">A ARQUITETURA EM QUATRO LINHAS</div>
       <div class="reveal" style="display:flex;flex-direction:column;gap:clamp(.25rem,.9vh,.6rem);width:min(100%,44ch)">
-        <div class="node" style="min-width:0"><b>Applications generate facts.</b></div>
-        <div class="node" style="min-width:0"><b>Bronze preserves facts.</b></div>
-        <div class="node" style="min-width:0"><b>Silver defines what facts mean.</b></div>
-        <div class="node" style="min-width:0"><b>Gold optimizes facts for questions.</b></div>
+        <div class="node" style="min-width:0"><b>As aplica&ccedil;&otilde;es geram fatos.</b></div>
+        <div class="node" style="min-width:0"><b>Bronze preserva os fatos.</b></div>
+        <div class="node" style="min-width:0"><b>Silver define o que os fatos significam.</b></div>
+        <div class="node" style="min-width:0"><b>Gold otimiza os fatos para perguntas.</b></div>
       </div>
-      <p class="lede reveal" style="max-width:52ch">ClickHouse is not the architecture. It is
-        <strong class="hl">one implementation of the Gold layer</strong> &mdash; and the only part
-        we've designed to be thrown away.</p>
+      <p class="lede reveal" style="max-width:52ch">ClickHouse n&atilde;o &eacute; a arquitetura. &Eacute;
+        <strong class="hl">uma implementa&ccedil;&atilde;o da camada Gold</strong> &mdash; e a &uacute;nica parte
+        que projetamos para ser jogada fora.</p>
       <div class="dialog reveal decorative" style="width:min(100%,42ch)">
-        <div class="titlebar"><span class="tb-text">Notice</span><span class="tb-btns"><b>&#10005;</b></span></div>
+        <div class="titlebar"><span class="tb-text">Aviso</span><span class="tb-btns"><b>&#10005;</b></span></div>
         <div class="dlg-body"><div class="dlg-icon q">i</div>
-          <div class="dlg-text">It is now safe to turn off your OLAP engine.<span class="blink">_</span></div></div>
-        <div class="btnrow" style="padding:0 8px 8px"><span class="btn default">OK</span><span class="btn">Rebuild from Silver</span></div>
+          <div class="dlg-text">Agora &eacute; seguro desligar seu engine OLAP.<span class="blink">_</span></div></div>
+        <div class="btnrow" style="padding:0 8px 8px"><span class="btn default">OK</span><span class="btn">Reconstruir do Silver</span></div>
       </div>
     </div>
-    <div class="statusbar"><div>Real-Time Notification Event Analytics &mdash; v1.0</div><div>End</div></div>
+    <div class="statusbar"><div>Anal&iacute;tico de Eventos de Notifica&ccedil;&atilde;o em Tempo Real &mdash; v1.0</div><div>Fim</div></div>
   </div>
 </section>
 
@@ -1077,12 +1393,12 @@ COMMIT;</pre>
      TASKBAR — persistent navigation
      ============================================================ -->
 <div class="taskbar">
-  <div class="start" id="startBtn"><span class="flag"></span>Start</div>
+  <div class="start" id="startBtn"><span class="flag"></span>Iniciar</div>
   <div class="tasks">
-    <div class="task" id="taskCurrent">Welcome</div>
-    <div class="task idle" id="taskNext">Next &#9658;</div>
+    <div class="task" id="taskCurrent">In&iacute;cio</div>
+    <div class="task idle" id="taskNext">Pr&oacute;ximo &#9658;</div>
   </div>
-  <div class="tray"><span class="count" id="counter">01/17</span><span id="clock">--:--</span></div>
+  <div class="tray"><span class="count" id="counter">01/22</span><span id="clock">--:--</span></div>
 </div>
 
 <script>
@@ -1141,7 +1457,7 @@ class SlidePresentation {
     this.counter.textContent  = String(this.current + 1).padStart(2,'0') + '/' + total;
     this.taskCur.textContent  = this.slides[this.current].dataset.task || 'Slide';
     const nxt = this.slides[this.current + 1];
-    this.taskNext.textContent = nxt ? (nxt.dataset.task + ' \u25B6') : 'End';
+    this.taskNext.textContent = nxt ? (nxt.dataset.task + ' \u25B6') : 'Fim';
     this.taskNext.style.visibility = nxt ? 'visible' : 'hidden';
   }
 
